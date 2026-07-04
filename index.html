@@ -1,0 +1,574 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💜</text></svg>">
+<title>母と三姉妹の旅 上高地 2026.8.15–18</title>
+<style>
+  :root{
+    --paper:#FBFAF7;
+    --card:#FFFFFF;
+    --ink:#2A322D;
+    --sub:#6B766E;
+    --faint:#98A29A;
+    --pine:#35604C;
+    --pine-deep:#26463A;
+    --kikyo:#7A5FA8;
+    --kikyo-deep:#5C4485;
+    --kikyo-tint:#F3EFF9;
+    --mist:#EDF0EC;
+    --line:#E2E7E0;
+    --dusk1:#372C58;
+    --dusk2:#5D4E8C;
+    --dusk3:#9C8DC4;
+    --dawn:#E8E2F1;
+    --gold:#C9A84C;
+    --serif:"Hiragino Mincho ProN","Yu Mincho","MS PMincho",serif;
+    --sans:"Hiragino Kaku Gothic ProN","Yu Gothic Medium","Yu Gothic","Meiryo",sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font-family:var(--sans);font-size:15px;line-height:1.8;
+  }
+  a{color:var(--pine)}
+
+  /* ================= hero ================= */
+  .hero{
+    position:relative;overflow:hidden;color:#FDFCF8;
+    background:linear-gradient(178deg,var(--dusk1) 0%,var(--dusk2) 44%,var(--dusk3) 72%,var(--dawn) 100%);
+    padding:58px 20px 108px;text-align:center;
+  }
+  .hero .inner{position:relative;z-index:3;max-width:680px;margin:0 auto}
+  .hero .eyebrow{
+    font-size:11.5px;letter-spacing:.34em;margin:0 0 18px;
+    color:#D9CFEE;font-weight:600;text-indent:.34em;
+  }
+  .hero h1{
+    font-family:var(--serif);font-weight:600;letter-spacing:.06em;
+    font-size:clamp(26px,7vw,38px);line-height:1.5;margin:0;
+    text-wrap:balance;text-shadow:0 1px 24px rgba(30,20,60,.35);
+  }
+  .hero h1 small{
+    display:block;font-size:clamp(13px,3.4vw,16px);letter-spacing:.3em;
+    margin-bottom:14px;color:#E3DAF3;font-weight:500;text-indent:.3em;
+  }
+  .hero .names{
+    margin:20px 0 0;font-size:12.5px;letter-spacing:.12em;color:#EFEAF7;
+  }
+  .hero .names b{color:#fff;font-weight:600}
+  .hero .theme{
+    display:inline-block;margin-top:22px;padding:6px 20px;
+    border:1px solid rgba(255,255,255,.45);border-radius:999px;
+    font-size:12px;letter-spacing:.14em;color:#fff;
+    background:rgba(255,255,255,.08);backdrop-filter:blur(2px);
+  }
+  /* mountains */
+  .hero svg{position:absolute;left:0;right:0;bottom:-2px;width:100%;height:130px;z-index:1;display:block}
+  .hero .fade{
+    position:absolute;left:0;right:0;bottom:0;height:56px;z-index:2;
+    background:linear-gradient(to bottom,transparent,var(--paper));
+  }
+
+  .wrap{max-width:680px;margin:0 auto;padding:0 18px 72px}
+
+  /* ================= tabs ================= */
+  nav{
+    position:sticky;top:10px;z-index:20;
+    margin:-58px auto 0;max-width:640px;
+    background:var(--card);border-radius:16px;
+    box-shadow:0 8px 28px rgba(42,50,45,.14),0 1px 0 rgba(42,50,45,.04);
+    padding:7px;display:flex;gap:5px;
+  }
+  nav button{
+    flex:1 1 0;appearance:none;border:none;background:transparent;
+    color:var(--sub);font:inherit;font-size:12.5px;font-weight:700;
+    padding:9px 4px;border-radius:11px;cursor:pointer;letter-spacing:.02em;
+    line-height:1.3;transition:background .18s,color .18s;
+  }
+  nav button:focus-visible{outline:2px solid var(--kikyo);outline-offset:2px}
+  body[data-view="all"]   nav button[data-view="all"],
+  body[data-view="shizu"] nav button[data-view="shizu"],
+  body[data-view="fumi"]  nav button[data-view="fumi"],
+  body[data-view="miwa"]  nav button[data-view="miwa"]{
+    background:var(--pine);color:#fff;
+    box-shadow:0 2px 8px rgba(38,70,58,.35);
+  }
+
+  /* ================= person summary ================= */
+  .psum{
+    display:none;margin:26px 0 0;padding:20px 22px;border-radius:14px;
+    background:linear-gradient(135deg,var(--kikyo-tint),#FDFCFA 70%);
+    border:1px solid #E7DFF2;font-size:13.5px;
+  }
+  .psum h3{
+    margin:0 0 8px;font-family:var(--serif);font-size:15.5px;font-weight:600;
+    color:var(--kikyo-deep);letter-spacing:.06em;
+  }
+  .psum ul{margin:0;padding-left:18px}
+  .psum li{margin:4px 0}
+  body[data-view="shizu"] #sum-shizu{display:block}
+  body[data-view="fumi"]  #sum-fumi{display:block}
+  body[data-view="miwa"]  #sum-miwa{display:block}
+
+  /* ================= day / timeline ================= */
+  .day{margin-top:52px}
+  .dayhead{display:flex;align-items:center;gap:16px;margin-bottom:20px}
+  .datebox{flex:none;text-align:center;line-height:1}
+  .datebox .m{display:block;font-size:10.5px;letter-spacing:.24em;color:var(--faint);
+    text-indent:.24em;margin-bottom:4px}
+  .datebox .d{display:block;font-family:var(--serif);font-size:34px;font-weight:600;
+    color:var(--pine-deep);font-variant-numeric:tabular-nums;letter-spacing:.02em}
+  .datebox .w{display:inline-block;margin-top:6px;font-size:10.5px;font-weight:700;
+    color:#fff;background:var(--pine);border-radius:999px;padding:2px 11px;letter-spacing:.1em}
+  .dayhead .rule{flex:none;width:1px;align-self:stretch;background:var(--line)}
+  .daytitle{
+    font-family:var(--serif);font-size:19px;font-weight:600;margin:0;
+    letter-spacing:.04em;text-wrap:balance;
+  }
+  .daysub{font-size:12.5px;color:var(--sub);margin:4px 0 0}
+
+  ul.tl{list-style:none;margin:0;padding:6px 0 0 15px;border-left:2px solid var(--line)}
+  .it{position:relative;padding:0 0 22px 20px}
+  .it:last-child{padding-bottom:6px}
+  .it::before{
+    content:"";position:absolute;left:-23px;top:8px;width:9px;height:9px;
+    border-radius:50%;background:var(--paper);border:2.5px solid var(--pine);
+  }
+  .it .t{
+    display:inline-block;font-size:11.5px;font-weight:700;color:var(--pine);
+    letter-spacing:.08em;font-variant-numeric:tabular-nums;
+    background:var(--mist);border-radius:6px;padding:1px 9px;margin-bottom:3px;
+  }
+  .it .ti{font-weight:700;font-size:15.5px;margin:2px 0 3px;letter-spacing:.01em}
+  .it .de{font-size:13px;color:var(--sub);margin:0}
+  .it .de a{text-decoration-thickness:1px;text-underline-offset:3px}
+
+  .it.hl{
+    margin:4px 0 22px -15px;padding:18px 20px 18px 32px;
+    border-radius:0 16px 16px 0;
+    background:linear-gradient(135deg,var(--kikyo-tint) 0%,#FBF9FD 100%);
+    border-left:3px solid var(--kikyo);
+    box-shadow:0 3px 14px rgba(122,95,168,.10);
+  }
+  .it.hl::before{left:-8px;top:24px;border-color:var(--kikyo);background:var(--kikyo)}
+  .it.hl .t{color:var(--kikyo-deep);background:#EAE2F4}
+  .it.hl .ti{font-family:var(--serif);font-size:17px;color:#463366;letter-spacing:.03em}
+  .it.hl .de{color:#6B5E86}
+
+  .chips{margin-top:6px;display:flex;gap:5px;flex-wrap:wrap}
+  .chip{font-size:10px;font-weight:700;padding:2px 10px;border-radius:999px;
+    background:var(--mist);color:var(--sub);letter-spacing:.06em}
+  .chip.all{background:var(--pine);color:#fff}
+  body:not([data-view="all"]) .chips{display:none}
+
+  body[data-view="shizu"] .it:not(.w-all):not(.w-shizu){display:none}
+  body[data-view="fumi"]  .it:not(.w-all):not(.w-fumi){display:none}
+  body[data-view="miwa"]  .it:not(.w-all):not(.w-miwa){display:none}
+
+  .stay{
+    margin:18px 0 0;padding:14px 18px;border-radius:12px;background:var(--card);
+    border:1px solid var(--line);font-size:13.5px;
+    box-shadow:0 1px 6px rgba(42,50,45,.05);
+  }
+  .stay .tag{
+    display:inline-block;font-size:10px;font-weight:700;letter-spacing:.18em;
+    color:var(--pine);border:1px solid var(--pine);border-radius:4px;
+    padding:0 7px;margin-right:9px;vertical-align:1px;text-indent:.18em;
+  }
+  .stay .ok{color:#2F7D57;font-weight:700}
+  .stay .sm{color:var(--sub);font-size:12.5px}
+
+  /* ================= sections ================= */
+  .sechead{margin:64px 0 20px;text-align:center}
+  .sechead .orn{color:var(--kikyo);font-size:13px;letter-spacing:.5em;text-indent:.5em}
+  h2.sec{
+    font-family:var(--serif);font-size:21px;font-weight:600;letter-spacing:.08em;
+    margin:6px 0 6px;text-wrap:balance;
+  }
+  .secsub{font-size:12.5px;color:var(--sub);margin:0}
+
+  .planlabel{
+    display:flex;align-items:center;gap:12px;margin:26px 0 12px;
+    font-size:13px;font-weight:700;color:var(--pine-deep);letter-spacing:.04em;
+  }
+  .planlabel::after{content:"";flex:1;height:1px;background:var(--line)}
+  .planlabel .ab{
+    flex:none;display:inline-grid;place-items:center;width:26px;height:26px;
+    border-radius:50%;background:var(--pine);color:#fff;
+    font-family:var(--serif);font-size:14px;
+  }
+
+  .yado{display:grid;gap:14px}
+  .yadocard{
+    background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:18px 20px;box-shadow:0 2px 10px rgba(42,50,45,.06);
+  }
+  .yadocard .where{font-size:10.5px;font-weight:700;letter-spacing:.2em;color:var(--faint);text-indent:.2em}
+  .yadocard h3{margin:4px 0 6px;font-size:17.5px;font-family:var(--serif);font-weight:600;letter-spacing:.03em}
+  .yadocard .price{
+    display:inline-block;font-size:12.5px;font-weight:700;color:var(--kikyo-deep);
+    background:var(--kikyo-tint);border-radius:999px;padding:2px 13px;margin:0 0 8px;
+  }
+  .yadocard p{margin:0;font-size:13px;color:var(--sub)}
+  .yadocard p b{color:var(--ink)}
+
+  /* checklist */
+  .check{display:grid;gap:10px}
+  .ck{
+    display:flex;gap:14px;align-items:flex-start;
+    background:var(--card);border:1px solid var(--line);border-radius:12px;
+    padding:13px 16px;font-size:13.5px;
+    box-shadow:0 1px 6px rgba(42,50,45,.04);
+  }
+  .ck .st{
+    flex:none;width:64px;text-align:center;font-size:10.5px;font-weight:700;
+    border-radius:999px;padding:3px 0;letter-spacing:.06em;margin-top:2px;
+  }
+  .ck .st.done{background:#E4F1E9;color:#2F7D57}
+  .ck .st.hot{background:var(--kikyo);color:#fff}
+  .ck .st.todo{background:var(--mist);color:var(--sub)}
+  .ck .bd{flex:1}
+  .ck .bd b{display:block;font-size:14px}
+  .ck .bd .who{color:var(--kikyo-deep);font-weight:700}
+  .ck .bd .why{color:var(--sub);font-size:12.5px}
+
+  .memo{
+    background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:16px 20px;font-size:13.5px;box-shadow:0 1px 6px rgba(42,50,45,.04);
+  }
+  .memo ul{margin:0;padding-left:4px;list-style:none}
+  .memo li{margin:7px 0;padding-left:26px;position:relative}
+  .memo li .ic{position:absolute;left:0;top:0}
+
+  footer{margin-top:72px;text-align:center;color:var(--faint);font-size:11.5px;letter-spacing:.06em}
+  footer .orn{color:var(--kikyo);letter-spacing:.5em;text-indent:.5em;font-size:12px}
+  footer .m{
+    font-family:var(--serif);color:var(--kikyo-deep);font-size:16px;
+    letter-spacing:.14em;margin:8px 0 14px;
+  }
+
+  @media (max-width:420px){
+    nav button{font-size:11.5px;padding:9px 2px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    nav button{transition:none}
+  }
+</style>
+
+<!-- ================= hero：夜明けの上高地 ================= -->
+<div class="hero">
+  <div class="inner">
+    <p class="eyebrow">2026.8.15 SAT — 8.18 TUE ｜ 3泊4日</p>
+    <h1><small>喜寿のお祝い</small>夜明けの上高地へ、<br>母と三姉妹の旅</h1>
+    <p class="names"><b>志津</b>（埼玉）・<b>文</b>（壱岐）・<b>美和とお母さん</b>（奈良）</p>
+    <span class="theme">主役は、誰もいない早朝の散策と 川の字の夜</span>
+  </div>
+  <svg viewBox="0 0 800 130" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0,92 L70,64 130,84 210,48 290,78 360,58 430,80 520,42 600,72 680,56 740,74 800,60 800,130 0,130Z" fill="#8A7BB4" opacity=".45"/>
+    <path d="M0,104 L90,76 170,96 260,62 340,92 420,72 500,94 590,60 670,86 750,72 800,84 800,130 0,130Z" fill="#5F547E" opacity=".6"/>
+    <path d="M0,116 L60,96 140,110 230,86 320,108 410,92 500,110 580,90 660,106 730,96 800,108 800,130 0,130Z" fill="#2C4A3C"/>
+  </svg>
+  <div class="fade"></div>
+</div>
+
+<div class="wrap">
+
+<nav aria-label="旅程の表示切替">
+  <button data-view="all">全体</button>
+  <button data-view="shizu">志津さん</button>
+  <button data-view="fumi">文さん</button>
+  <button data-view="miwa">美和・母</button>
+</nav>
+
+<div class="psum" id="sum-shizu">
+  <h3>志津さんの旅のかたち</h3>
+  <ul>
+    <li>前泊なし。<b>8/16朝、バスタ新宿から直通バス1本</b>で上高地へ（乗換なし）</li>
+    <li><b>7/16 さわやか信州号の予約開始</b>（乗車1ヶ月前）——ここが最重要！</li>
+    <li>宿泊はルミエスタ＋8/17の2泊。8/17分は文さんからの贈りもので負担なし</li>
+    <li>帰りは8/18、松本からあずさ or 高速バス（バスなら約3,800円）</li>
+  </ul>
+</div>
+<div class="psum" id="sum-fumi">
+  <h3>文さんの旅のかたち</h3>
+  <ul>
+    <li>壱岐→福岡→<b>FDAで松本まで直行</b>（8/15の13:55発）。3泊4日</li>
+    <li><b>FDA往復（8/15・8/18）の予約を最優先で</b>——お盆便はすぐ埋まります</li>
+    <li>8/17の宿（川の字＋1）が文さんからのプレゼント。候補4件から選択を</li>
+    <li>帰りはFDA 13:10発（または17:45発でゆっくり）</li>
+  </ul>
+</div>
+<div class="psum" id="sum-miwa">
+  <h3>美和・お母さんの旅のかたち</h3>
+  <ul>
+    <li>電車で奈良→京都→名古屋→<b>特急しなの</b>で松本（約4時間半・乗換2回）</li>
+    <li>しなの指定席は<b>乗車1ヶ月前（7/15〜）に確保</b>。お母さんは窓側の席を</li>
+    <li>8/15前泊でゆとりを。歩くのはいつでもお母さんのペース最優先</li>
+    <li>ナショナルパークライナー（松本⇔上高地）と8/15ビジホの予約担当</li>
+  </ul>
+</div>
+
+<!-- ============ 8/15 ============ -->
+<section class="day">
+  <div class="dayhead">
+    <div class="datebox"><span class="m">AUG</span><span class="d">15</span><span class="w">土</span></div>
+    <div class="rule"></div>
+    <div><p class="daytitle">松本に集まる日</p>
+    <p class="daysub">奈良組・壱岐組が松本で前泊。志津さんは自宅でゆっくり</p></div>
+  </div>
+  <ul class="tl">
+    <li class="it w-miwa"><span class="t">9:00頃</span>
+      <p class="ti">奈良を出発（電車）</p>
+      <p class="de">JR奈良 →（みやこ路快速）京都 →（新幹線）名古屋 →（特急しなの）松本。約4時間半</p>
+      <div class="chips"><span class="chip">美和・母</span></div></li>
+    <li class="it w-miwa"><span class="t">13:30頃</span>
+      <p class="ti">松本着。ホテルに荷物を預けて街ぶら</p>
+      <p class="de">縄手通り・中町通りの城下町さんぽなど、お母さんのペースで</p>
+      <div class="chips"><span class="chip">美和・母</span></div></li>
+    <li class="it w-fumi"><span class="t">13:55</span>
+      <p class="ti">FDAで福岡から松本へひとっ飛び</p>
+      <p class="de">福岡13:55発 → 信州まつもと空港15:25着 → シャトルバス約30分で松本駅</p>
+      <div class="chips"><span class="chip">文</span></div></li>
+    <li class="it w-miwa w-fumi"><span class="t">16:30</span>
+      <p class="ti">松本駅で3人合流 → 松本城の夕景さんぽ</p>
+      <div class="chips"><span class="chip">美和・母</span><span class="chip">文</span></div></li>
+    <li class="it w-miwa w-fumi"><span class="t">18:30</span>
+      <p class="ti">前夜祭ディナー</p>
+      <p class="de">山賊焼、信州そば、馬刺し——松本の味で明日に乾杯</p>
+      <div class="chips"><span class="chip">美和・母</span><span class="chip">文</span></div></li>
+    <li class="it w-shizu"><span class="t">夜</span>
+      <p class="ti">志津さんは自宅泊</p>
+      <p class="de">明朝は6時台に新宿へ。荷物をまとめて早めにおやすみなさい</p>
+      <div class="chips"><span class="chip">志津</span></div></li>
+  </ul>
+  <div class="stay w-miwa w-fumi"><span class="tag">泊</span>松本駅前のビジネスホテル・3名1室（候補：スーパーホテル松本駅前／松本ツーリストホテル）<br>
+  <span class="sm">お盆ピークにつき1人7,000〜12,000円想定。トリプルが無ければツイン＋シングルでも</span></div>
+</section>
+
+<!-- ============ 8/16 ============ -->
+<section class="day">
+  <div class="dayhead">
+    <div class="datebox"><span class="m">AUG</span><span class="d">16</span><span class="w">日</span></div>
+    <div class="rule"></div>
+    <div><p class="daytitle">上高地で全員集合</p>
+    <p class="daysub">2本のバスがほぼ同時刻に到着——バスターミナルで合流</p></div>
+  </div>
+  <ul class="tl">
+    <li class="it w-shizu"><span class="t">7:15</span>
+      <p class="ti">さわやか信州号でバスタ新宿を出発</p>
+      <p class="de">上高地まで直通・乗換なし。車窓の山景色を楽しみながら約4時間47分</p>
+      <div class="chips"><span class="chip">志津</span></div></li>
+    <li class="it w-miwa w-fumi"><span class="t">10:15</span>
+      <p class="ti">ナショナルパークライナーで松本を出発</p>
+      <p class="de">松本バスターミナル発・上高地直行（要予約）</p>
+      <div class="chips"><span class="chip">美和・母</span><span class="chip">文</span></div></li>
+    <li class="it w-all hl"><span class="t">11:55 / 12:02</span>
+      <p class="ti">上高地バスターミナルで、4人合流</p>
+      <p class="de">松本組11:55着、志津さん12:02着——7分差の待ち合わせ</p>
+      <div class="chips"><span class="chip all">全員</span></div></li>
+    <li class="it w-all"><span class="t">12:30</span>
+      <p class="ti">昼食 → ルミエスタホテルへ</p>
+      <p class="de">徒歩約20分（梓川沿いの平坦な道）。荷物・送迎はホテルに事前相談を</p>
+      <div class="chips"><span class="chip all">全員</span></div></li>
+    <li class="it w-all"><span class="t">15:00</span>
+      <p class="ti">河童橋・ウェストン碑あたりをのんびり散策</p>
+      <p class="de">ホテルはウェストン碑のすぐ横、河童橋まで徒歩15分の特等席</p>
+      <div class="chips"><span class="chip all">全員</span></div></li>
+    <li class="it w-all"><span class="t">17:00</span>
+      <p class="ti">温泉でひとやすみ</p>
+      <p class="de">上高地で唯一の源泉を持つ宿。湯上がりに梓川のせせらぎ</p>
+      <div class="chips"><span class="chip all">全員</span></div></li>
+    <li class="it w-all hl"><span class="t">18:30</span>
+      <p class="ti">喜寿のお祝いディナー</p>
+      <p class="de">ブローチの贈呈と「三人娘」のバースデーカードはここで。おめでとう、お母さん</p>
+      <div class="chips"><span class="chip all">全員</span></div></li>
+    <li class="it w-all"><span class="t">20:00</span>
+      <p class="ti">日帰り客が去った、静かな夜の上高地</p>
+      <p class="de">晴れれば満天の星。宿泊者だけのごほうび その一</p>
+      <div class="chips"><span class="chip all">全員</span></div></li>
+  </ul>
+  <div class="stay"><span class="tag">泊</span>上高地ルミエスタホテル・2室 <span class="ok">✓ 予約済</span>　¥234,600（4名・1泊2食＋入湯税）</div>
+</section>
+
+<!-- ============ 8/17 ============ -->
+<section class="day">
+  <div class="dayhead">
+    <div class="datebox"><span class="m">AUG</span><span class="d">17</span><span class="w">月</span></div>
+    <div class="rule"></div>
+    <div><p class="daytitle">早朝の上高地 → 川の字の夜</p>
+    <p class="daysub">この旅のハイライトが、朝と夜にひとつずつ</p></div>
+  </div>
+  <ul class="tl">
+    <li class="it w-all hl"><span class="t">5:30</span>
+      <p class="ti">夜明けの散策——誰もいない上高地</p>
+      <p class="de">ホテルすぐの田代池・田代湿原の朝霧（徒歩10〜15分）→ 余力があれば大正池 → 帰りに無人の河童橋と朝の穂高連峰。すべて平坦な道。宿泊者だけのごほうび その二</p>
+      <div class="chips"><span class="chip all">全員</span></div></li>
+    <li class="it w-all"><span class="t">8:00</span>
+      <p class="ti">朝食 → チェックアウト</p>
+      <div class="chips"><span class="chip all">全員</span></div></li>
+    <li class="it w-all"><span class="t">10:00</span>
+      <p class="ti">明神池へ木道さんぽ or 河童橋カフェでゆっくり</p>
+      <p class="de">お母さんの体力と相談で。明神池は片道約1時間（平坦）</p>
+      <div class="chips"><span class="chip all">全員</span></div></li>
+    <li class="it w-all"><span class="t">13:30頃</span>
+      <p class="ti">バスで松本へ戻る</p>
+      <p class="de">ナショナルパークライナー（要予約）で約100分</p>
+      <div class="chips"><span class="chip all">全員</span></div></li>
+    <li class="it w-all"><span class="t">15:30</span>
+      <p class="ti">今夜の宿へ移動</p>
+      <p class="de">浅間温泉案：松本駅からバス・タクシー約15分／安曇野案：松本駅でレンタカーを借りて約40分のアルプスドライブ</p>
+      <div class="chips"><span class="chip all">全員</span></div></li>
+    <li class="it w-all hl"><span class="t">18:30</span>
+      <p class="ti">4人そろって「川の字＋1」の夜</p>
+      <p class="de">文さんからの贈りもの。お母さんを真ん中に、布団を並べて</p>
+      <div class="chips"><span class="chip all">全員</span></div></li>
+  </ul>
+  <div class="stay"><span class="tag">泊</span>下記の候補4件から選定（→ 宿候補のセクションへ）</div>
+</section>
+
+<!-- ============ 8/18 ============ -->
+<section class="day">
+  <div class="dayhead">
+    <div class="datebox"><span class="m">AUG</span><span class="d">18</span><span class="w">火</span></div>
+    <div class="rule"></div>
+    <div><p class="daytitle">それぞれの家へ</p>
+    <p class="daysub">松本は三方向どこへ帰るにも便利</p></div>
+  </div>
+  <ul class="tl">
+    <li class="it w-all"><span class="t">朝</span>
+      <p class="ti">最後の朝さんぽ</p>
+      <p class="de">浅間温泉案：レトロな温泉街あるき／安曇野案：大王わさび農場（車で15分）</p>
+      <div class="chips"><span class="chip all">全員</span></div></li>
+    <li class="it w-shizu"><span class="t">10:30頃</span>
+      <p class="ti">松本駅から新宿へ</p>
+      <p class="de">特急あずさ（約2時間40分）or 高速バス（約3,800円・約3時間20分）</p>
+      <div class="chips"><span class="chip">志津</span></div></li>
+    <li class="it w-fumi"><span class="t">13:10</span>
+      <p class="ti">FDAで福岡へ、壱岐へ帰る</p>
+      <p class="de">松本13:10発 → 福岡14:50着（ゆっくりなら17:45発も）。安曇野案なら車で空港へ直送、約30分</p>
+      <div class="chips"><span class="chip">文</span></div></li>
+    <li class="it w-miwa"><span class="t">昼過ぎ</span>
+      <p class="ti">しなの → 名古屋 → 奈良へ</p>
+      <p class="de">夕方には帰宅。お母さん、お疲れさまでした</p>
+      <div class="chips"><span class="chip">美和・母</span></div></li>
+  </ul>
+</section>
+
+<!-- ============ 宿候補 ============ -->
+<div class="sechead">
+  <div class="orn">❖ ❖ ❖</div>
+  <h2 class="sec">8/17の宿 — 候補4件</h2>
+  <p class="secsub">どれも「4人で川の字＋1」が叶う宿。◎は喜寿との相性ポイント</p>
+</div>
+
+<p class="planlabel"><span class="ab">A</span>浅間温泉 — 車いらず・駅からバス15分・もう一晩温泉</p>
+<div class="yado">
+  <div class="yadocard">
+    <span class="where">ASAMA ONSEN</span>
+    <h3>ホテル玉之湯</h3>
+    <span class="price">目安：1人 15,000〜20,000円（2食付き）</span>
+    <p>◎ バリアフリー対応が売りの宿。<b>無料の貸切露天風呂が4つ</b>——母娘4人で気がねなく温泉に入れる。夜はロビーで生演奏。<a href="https://www.asama-tamanoyu.co.jp/" target="_blank" rel="noopener">公式サイト</a></p>
+  </div>
+  <div class="yadocard">
+    <span class="where">ASAMA ONSEN</span>
+    <h3>目之湯旅館</h3>
+    <span class="price">目安：1人 10,000円前後（2食付き）</span>
+    <p>◎ 創業150年の小さな老舗。源泉かけ流し＋自家製野菜の家庭料理。文豪が逗留した静かな宿でしみじみ川の字。4案で一番の低予算。<a href="https://asamaonsen.jp/asamap/%E3%81%8A%E3%81%99%E3%81%99%E3%82%81%E3%81%AE%E5%AE%BF%E6%A1%88%E5%86%85/" target="_blank" rel="noopener">浅間温泉観光協会</a></p>
+  </div>
+</div>
+
+<p class="planlabel"><span class="ab">B</span>安曇野の一棟貸し — レンタカーで山麓ドライブ＋翌朝わさび農場</p>
+<div class="yado">
+  <div class="yadocard">
+    <span class="where">AZUMINO</span>
+    <h3>AMBIENT 安曇野コテージ</h3>
+    <span class="price">目安：一棟 20,000〜55,000円 ＋ レンタカー代</span>
+    <p>◎ 森の中の一棟貸しコテージ。本館の温泉大浴場も利用可。キッチン付きで「4人で朝ごはんを作る」思い出も。<a href="https://www.jalan.net/yad318540/" target="_blank" rel="noopener">じゃらん</a></p>
+  </div>
+  <div class="yadocard">
+    <span class="where">AZUMINO</span>
+    <h3>四季の郷 コテージ（ほりでーゆ〜）</h3>
+    <span class="price">目安：一棟利用・人数割で手頃 ＋ レンタカー代</span>
+    <p>◎ 温泉施設「ほりでーゆ〜」併設で湯は本格派。常念岳のふもと、静かな里山の一棟貸し。<a href="http://www.holiday-you.co.jp/cottage.html" target="_blank" rel="noopener">公式サイト</a></p>
+  </div>
+</div>
+
+<!-- ============ 予約チェックリスト ============ -->
+<div class="sechead">
+  <div class="orn">❖ ❖ ❖</div>
+  <h2 class="sec">予約チェックリスト</h2>
+  <p class="secsub">お盆ピークにつき、上から順に。日付は2026年</p>
+</div>
+<div class="check">
+  <div class="ck"><span class="st done">済</span>
+    <div class="bd"><b>上高地ルミエスタホテル 8/16（2室4名）</b>
+    <span class="who">美和</span></div></div>
+  <div class="ck"><span class="st hot">最優先</span>
+    <div class="bd"><b>FDA 福岡⇔松本 往復（8/15・8/18）</b>
+    <span class="who">文</span> ｜ 今すぐ<br><span class="why">お盆便は争奪戦。真っ先に確保を</span></div></div>
+  <div class="ck"><span class="st hot">最優先</span>
+    <div class="bd"><b>さわやか信州号 新宿→上高地 8/16朝便</b>
+    <span class="who">志津</span> ｜ <b>7/16 発売開始</b><br><span class="why">乗車1ヶ月前の発売開始日に即予約</span></div></div>
+  <div class="ck"><span class="st todo">早めに</span>
+    <div class="bd"><b>ナショナルパークライナー（松本⇔上高地）</b>
+    <span class="who">美和</span> ｜ 8/16 往路3名・8/17 復路4名</div></div>
+  <div class="ck"><span class="st todo">早めに</span>
+    <div class="bd"><b>8/15 松本駅前ビジホ（3名1室）</b>
+    <span class="who">美和</span></div></div>
+  <div class="ck"><span class="st todo">待ち</span>
+    <div class="bd"><b>8/17の宿（候補4件から決定 → 予約）</b>
+    <span class="who">文</span> ｜ 候補決定後すぐ</div></div>
+  <div class="ck"><span class="st todo">7/15〜</span>
+    <div class="bd"><b>特急しなの・あずさ 指定席</b>
+    <span class="who">各自</span> ｜ 乗車1ヶ月前から発売</div></div>
+  <div class="ck"><span class="st todo">待ち</span>
+    <div class="bd"><b>レンタカー 8/17〜18</b>
+    <span class="who">未定</span> ｜ 安曇野案に決まったときだけ</div></div>
+</div>
+
+<!-- ============ 費用メモ ============ -->
+<div class="sechead">
+  <div class="orn">❖ ❖ ❖</div>
+  <h2 class="sec">費用メモ</h2>
+</div>
+<div class="memo">
+  <ul>
+    <li><span class="ic">💐</span><b>ルミエスタ ¥234,600</b> → 姉妹3人で割り勘 <b>約¥78,200／人</b>（お母さんはご招待）</li>
+    <li><span class="ic">🎁</span><b>8/17の宿</b> → 文さんからの贈りもの（志津さんの負担なし）</li>
+    <li><span class="ic">👛</span><b>8/15ビジホ・交通費</b> → 各自負担</li>
+    <li><span class="ic">🚌</span>志津さんの交通費：新宿→上高地バス片道 約1万円前後 ＋ 帰りのあずさ／バス</li>
+  </ul>
+</div>
+
+<!-- ============ 持ち物・メモ ============ -->
+<div class="sechead">
+  <div class="orn">❖ ❖ ❖</div>
+  <h2 class="sec">持ち物・心得</h2>
+</div>
+<div class="memo">
+  <ul>
+    <li><span class="ic">🎗</span>ブローチとバースデーカード（志津さん・準備済）——8/16のディナーで</li>
+    <li><span class="ic">👟</span>歩きやすい靴（散策路は平坦。スニーカーで十分）</li>
+    <li><span class="ic">🧥</span>羽織りもの必須——上高地の朝は8月でも10〜15℃</li>
+    <li><span class="ic">☔</span>雨具（山の天気は変わりやすい）、常備薬・保険証</li>
+    <li><span class="ic">🚫</span>上高地はマイカー規制。車の乗り入れ不可、バス・タクシーのみ</li>
+  </ul>
+</div>
+
+<footer>
+  <div class="orn">❖</div>
+  <p class="m">喜寿おめでとう、お母さん。</p>
+  <p>母と三姉妹の旅 2026 ｜ 時刻・料金は2026年7月時点の調べ。予約時に最新情報をご確認ください</p>
+</footer>
+</div>
+
+<script>
+  const btns = document.querySelectorAll('nav button');
+  document.body.dataset.view = 'all';
+  btns.forEach(b => b.addEventListener('click', () => {
+    document.body.dataset.view = b.dataset.view;
+  }));
+</script>
