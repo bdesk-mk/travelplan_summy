@@ -1,0 +1,485 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎁</text></svg>">
+<title>お母さんへ — 旅の贈りもの</title>
+<style>
+  :root{
+    --paper:#FBFAF7;
+    --card:#FFFFFF;
+    --ink:#2A322D;
+    --sub:#6B766E;
+    --faint:#98A29A;
+    --pine:#35604C;
+    --pine-deep:#26463A;
+    --kikyo:#7A5FA8;
+    --kikyo-deep:#5C4485;
+    --kikyo-tint:#F3EFF9;
+    --mist:#EDF0EC;
+    --line:#E2E7E0;
+    --dusk1:#372C58;
+    --dusk2:#5D4E8C;
+    --dusk3:#9C8DC4;
+    --dawn:#E8E2F1;
+    --serif:"Hiragino Mincho ProN","Yu Mincho","MS PMincho",serif;
+    --sans:"Hiragino Kaku Gothic ProN","Yu Gothic Medium","Yu Gothic","Meiryo",sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font-family:var(--sans);font-size:15px;line-height:1.8;
+  }
+  a{color:var(--pine)}
+
+  /* ================= hero：贈りもの ================= */
+  .hero{
+    position:relative;overflow:hidden;color:#FDFCF8;
+    background:linear-gradient(178deg,var(--dusk1) 0%,var(--dusk2) 44%,var(--dusk3) 72%,var(--dawn) 100%);
+    padding:64px 20px 128px;text-align:center;
+  }
+  .hero .inner{position:relative;z-index:3;max-width:680px;margin:0 auto}
+  .bow{width:74px;height:auto;margin:0 auto 20px;display:block;filter:drop-shadow(0 2px 10px rgba(30,20,60,.35))}
+  .hero .eyebrow{
+    font-size:11.5px;letter-spacing:.34em;margin:0 0 18px;
+    color:#D9CFEE;font-weight:600;text-indent:.34em;
+  }
+  .hero h1{
+    font-family:var(--serif);font-weight:600;letter-spacing:.06em;
+    font-size:clamp(26px,7vw,38px);line-height:1.6;margin:0;
+    text-wrap:balance;text-shadow:0 1px 24px rgba(30,20,60,.35);
+  }
+  .hero h1 small{
+    display:block;font-size:clamp(13px,3.4vw,16px);letter-spacing:.3em;
+    margin-bottom:14px;color:#E3DAF3;font-weight:500;text-indent:.3em;
+  }
+  .hero .names{
+    margin:22px 0 0;font-size:13px;letter-spacing:.2em;color:#EFEAF7;
+  }
+  .openbtn{
+    display:inline-block;margin-top:26px;padding:10px 34px;
+    border:1px solid rgba(255,255,255,.55);border-radius:999px;
+    font-family:var(--serif);font-size:14px;letter-spacing:.3em;text-indent:.3em;
+    color:#fff;text-decoration:none;
+    background:rgba(255,255,255,.10);backdrop-filter:blur(2px);
+  }
+  .hero svg.mts{position:absolute;left:0;right:0;bottom:-2px;width:100%;height:130px;z-index:1;display:block}
+  .hero .fade{
+    position:absolute;left:0;right:0;bottom:0;height:56px;z-index:2;
+    background:linear-gradient(to bottom,transparent,var(--paper));
+  }
+
+  .wrap{max-width:680px;margin:0 auto;padding:0 18px 72px}
+
+  /* ================= 手紙 ================= */
+  .letter{
+    max-width:640px;margin:-40px auto 0;position:relative;z-index:5;
+    background:var(--card);border:1px solid #E7DFF2;border-radius:16px;
+    padding:30px 28px;box-shadow:0 10px 32px rgba(42,50,45,.12);
+    font-family:var(--serif);font-size:15px;line-height:2.2;letter-spacing:.04em;
+  }
+  .letter p{margin:0 0 1em}
+  .letter .to{font-size:17px;font-weight:600;color:var(--kikyo-deep)}
+  .letter .from{text-align:right;margin-top:1.2em;color:var(--sub)}
+
+  /* ================= tabs ================= */
+  nav{
+    position:sticky;top:10px;z-index:20;
+    margin:28px auto 0;max-width:640px;
+    background:var(--card);border-radius:16px;
+    box-shadow:0 8px 28px rgba(42,50,45,.14),0 1px 0 rgba(42,50,45,.04);
+    padding:7px;display:flex;gap:5px;
+  }
+  nav button{
+    flex:1 1 0;appearance:none;border:none;background:transparent;
+    color:var(--sub);font:inherit;font-size:12.5px;font-weight:700;
+    padding:9px 4px;border-radius:11px;cursor:pointer;letter-spacing:.02em;
+    line-height:1.3;transition:background .18s,color .18s;
+  }
+  nav button:focus-visible{outline:2px solid var(--kikyo);outline-offset:2px}
+  body[data-view="all"]   nav button[data-view="all"],
+  body[data-view="shizu"] nav button[data-view="shizu"],
+  body[data-view="fumi"]  nav button[data-view="fumi"],
+  body[data-view="miwa"]  nav button[data-view="miwa"]{
+    background:var(--pine);color:#fff;
+    box-shadow:0 2px 8px rgba(38,70,58,.35);
+  }
+
+  .psum{
+    display:none;margin:26px 0 0;padding:20px 22px;border-radius:14px;
+    background:linear-gradient(135deg,var(--kikyo-tint),#FDFCFA 70%);
+    border:1px solid #E7DFF2;font-size:13.5px;
+  }
+  .psum h3{
+    margin:0 0 8px;font-family:var(--serif);font-size:15.5px;font-weight:600;
+    color:var(--kikyo-deep);letter-spacing:.06em;
+  }
+  .psum ul{margin:0;padding-left:18px}
+  .psum li{margin:4px 0}
+  body[data-view="shizu"] #sum-shizu{display:block}
+  body[data-view="fumi"]  #sum-fumi{display:block}
+  body[data-view="miwa"]  #sum-miwa{display:block}
+
+  /* ================= day / timeline ================= */
+  .day{margin-top:52px}
+  .dayhead{display:flex;align-items:center;gap:16px;margin-bottom:20px}
+  .datebox{flex:none;text-align:center;line-height:1}
+  .datebox .m{display:block;font-size:10.5px;letter-spacing:.24em;color:var(--faint);
+    text-indent:.24em;margin-bottom:4px}
+  .datebox .d{display:block;font-family:var(--serif);font-size:34px;font-weight:600;
+    color:var(--pine-deep);font-variant-numeric:tabular-nums;letter-spacing:.02em}
+  .datebox .w{display:inline-block;margin-top:6px;font-size:10.5px;font-weight:700;
+    color:#fff;background:var(--pine);border-radius:999px;padding:2px 11px;letter-spacing:.1em}
+  .dayhead .rule{flex:none;width:1px;align-self:stretch;background:var(--line)}
+  .daytitle{
+    font-family:var(--serif);font-size:19px;font-weight:600;margin:0;
+    letter-spacing:.04em;text-wrap:balance;
+  }
+  .daysub{font-size:12.5px;color:var(--sub);margin:4px 0 0}
+
+  ul.tl{list-style:none;margin:0;padding:6px 0 0 15px;border-left:2px solid var(--line)}
+  .it{position:relative;padding:0 0 22px 20px}
+  .it:last-child{padding-bottom:6px}
+  .it::before{
+    content:"";position:absolute;left:-23px;top:8px;width:9px;height:9px;
+    border-radius:50%;background:var(--paper);border:2.5px solid var(--pine);
+  }
+  .it .t{
+    display:inline-block;font-size:11.5px;font-weight:700;color:var(--pine);
+    letter-spacing:.08em;font-variant-numeric:tabular-nums;
+    background:var(--mist);border-radius:6px;padding:1px 9px;margin-bottom:3px;
+  }
+  .it .ti{font-weight:700;font-size:15.5px;margin:2px 0 3px;letter-spacing:.01em}
+  .it .de{font-size:13px;color:var(--sub);margin:0}
+
+  .it.hl{
+    margin:4px 0 22px -15px;padding:18px 20px 18px 32px;
+    border-radius:0 16px 16px 0;
+    background:linear-gradient(135deg,var(--kikyo-tint) 0%,#FBF9FD 100%);
+    border-left:3px solid var(--kikyo);
+    box-shadow:0 3px 14px rgba(122,95,168,.10);
+  }
+  .it.hl::before{left:-8px;top:24px;border-color:var(--kikyo);background:var(--kikyo)}
+  .it.hl .t{color:var(--kikyo-deep);background:#EAE2F4}
+  .it.hl .ti{font-family:var(--serif);font-size:17px;color:#463366;letter-spacing:.03em}
+  .it.hl .de{color:#6B5E86}
+
+  .chips{margin-top:6px;display:flex;gap:5px;flex-wrap:wrap}
+  .chip{font-size:10px;font-weight:700;padding:2px 10px;border-radius:999px;
+    background:var(--mist);color:var(--sub);letter-spacing:.06em}
+  .chip.all{background:var(--pine);color:#fff}
+  body:not([data-view="all"]) .chips{display:none}
+
+  body[data-view="shizu"] .it:not(.w-all):not(.w-shizu){display:none}
+  body[data-view="fumi"]  .it:not(.w-all):not(.w-fumi){display:none}
+  body[data-view="miwa"]  .it:not(.w-all):not(.w-miwa){display:none}
+
+  .stay{
+    margin:18px 0 0;padding:14px 18px;border-radius:12px;background:var(--card);
+    border:1px solid var(--line);font-size:13.5px;
+    box-shadow:0 1px 6px rgba(42,50,45,.05);
+  }
+  .stay .tag{
+    display:inline-block;font-size:10px;font-weight:700;letter-spacing:.18em;
+    color:var(--pine);border:1px solid var(--pine);border-radius:4px;
+    padding:0 7px;margin-right:9px;vertical-align:1px;text-indent:.18em;
+  }
+  .stay .sm{color:var(--sub);font-size:12.5px}
+
+  .sechead{margin:64px 0 20px;text-align:center}
+  .sechead .orn{color:var(--kikyo);font-size:13px;letter-spacing:.5em;text-indent:.5em}
+  h2.sec{
+    font-family:var(--serif);font-size:21px;font-weight:600;letter-spacing:.08em;
+    margin:6px 0 6px;text-wrap:balance;
+  }
+  .secsub{font-size:12.5px;color:var(--sub);margin:0}
+
+  .memo{
+    background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:16px 20px;font-size:13.5px;box-shadow:0 1px 6px rgba(42,50,45,.04);
+  }
+  .memo ul{margin:0;padding-left:4px;list-style:none}
+  .memo li{margin:7px 0;padding-left:26px;position:relative}
+  .memo li .ic{position:absolute;left:0;top:0}
+
+  footer{margin-top:72px;text-align:center;color:var(--faint);font-size:11.5px;letter-spacing:.06em}
+  footer .orn{color:var(--kikyo);letter-spacing:.5em;text-indent:.5em;font-size:12px}
+  footer .m{
+    font-family:var(--serif);color:var(--kikyo-deep);font-size:16px;
+    letter-spacing:.14em;margin:8px 0 14px;
+  }
+
+  @media (max-width:420px){
+    nav button{font-size:11.5px;padding:9px 2px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    nav button{transition:none}
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= hero：旅の贈りもの ================= -->
+<div class="hero">
+  <div class="inner">
+    <svg class="bow" viewBox="0 0 120 84" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M60 34 C 38 6, 6 10, 12 30 C 16 44, 42 44, 60 34Z" fill="#B9A6DD"/>
+      <path d="M60 34 C 82 6, 114 10, 108 30 C 104 44, 78 44, 60 34Z" fill="#CBBBE8"/>
+      <path d="M52 38 L40 76 L52 68 Z" fill="#B9A6DD"/>
+      <path d="M68 38 L80 76 L68 68 Z" fill="#CBBBE8"/>
+      <circle cx="60" cy="34" r="9" fill="#EFE8FA"/>
+    </svg>
+    <p class="eyebrow">2026.7.16 ｜ HAPPY 77TH BIRTHDAY</p>
+    <h1><small>お母さんへ、喜寿のお祝い</small>夜明けの上高地へ、<br>旅の贈りもの</h1>
+    <p class="names">志津・文・美和 より</p>
+    <a class="openbtn" href="#letter">ひらく</a>
+  </div>
+  <svg class="mts" viewBox="0 0 800 130" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0,92 L70,64 130,84 210,48 290,78 360,58 430,80 520,42 600,72 680,56 740,74 800,60 800,130 0,130Z" fill="#8A7BB4" opacity=".45"/>
+    <path d="M0,104 L90,76 170,96 260,62 340,92 420,72 500,94 590,60 670,86 750,72 800,84 800,130 0,130Z" fill="#5F547E" opacity=".6"/>
+    <path d="M0,116 L60,96 140,110 230,86 320,108 410,92 500,110 580,90 660,106 730,96 800,108 800,130 0,130Z" fill="#2C4A3C"/>
+  </svg>
+  <div class="fade"></div>
+</div>
+
+<div class="wrap">
+
+<!-- ================= 手紙 ================= -->
+<div class="letter" id="letter">
+  <p class="to">お母さんへ</p>
+  <p>77歳のお誕生日、おめでとうございます。</p>
+  <p>今年のプレゼントは、旅です。<br>
+  8月、私たち三人と一緒に、朝いちばんの上高地を歩きませんか。<br>
+  誰もいない河童橋、朝霧の田代池、梓川のせせらぎ。<br>
+  夜は温泉と、みんなで布団を並べて「川の字」で。</p>
+  <p>荷物の心配も、切符の心配もいりません。<br>
+  ぜんぶ私たちが用意しました。<br>
+  お母さんは、歩きやすい靴だけ準備していてください。</p>
+  <p class="from">志津・文・美和より　愛をこめて</p>
+</div>
+
+<nav aria-label="旅程の表示切替">
+  <button data-view="all">みんなの旅程</button>
+  <button data-view="shizu">志津</button>
+  <button data-view="fumi">文</button>
+  <button data-view="miwa">美和・お母さん</button>
+</nav>
+
+<div class="psum" id="sum-shizu">
+  <h3>志津の旅</h3>
+  <ul>
+    <li>8/16の朝、新宿から直通バスで上高地へ。お昼にみんなと合流します</li>
+    <li>帰りは8/18、松本から特急あずさで新宿へ</li>
+  </ul>
+</div>
+<div class="psum" id="sum-fumi">
+  <h3>文の旅</h3>
+  <ul>
+    <li>前日8/14に壱岐から奈良へ。お母さんの家に泊まって、8/15は3人一緒に出発します</li>
+    <li>帰りは8/18、松本から飛行機で福岡へ、夜のフェリーでその日のうちに壱岐へ帰ります</li>
+  </ul>
+</div>
+<div class="psum" id="sum-miwa">
+  <h3>美和・お母さんの旅</h3>
+  <ul>
+    <li>8/15の朝、3人そろって近鉄奈良から出発。特急ひだの車窓から飛騨川の渓谷を眺めて高山へ</li>
+    <li>歩くのはいつでもお母さんのペースで。疲れたらいつでも休憩です</li>
+  </ul>
+</div>
+
+<!-- ============ 8/15 ============ -->
+<section class="day">
+  <div class="dayhead">
+    <div class="datebox"><span class="m">AUG</span><span class="d">15</span><span class="w">土</span></div>
+    <div class="rule"></div>
+    <div><p class="daytitle">飛騨高山に集まる日</p>
+    <p class="daysub">前日に文が奈良へ。3人そろって、特急ひだで高山へ</p></div>
+  </div>
+  <ul class="tl">
+    <li class="it w-fumi"><span class="t">前日 14:00</span>
+      <p class="ti">文が奈良の家にやってきます（8/14前泊）</p>
+      <p class="de">夜はみんなで旅支度。ここから旅が始まります</p>
+      <div class="chips"><span class="chip">文</span></div></li>
+    <li class="it w-miwa w-fumi"><span class="t">9:06</span>
+      <p class="ti">3人そろって近鉄奈良を出発</p>
+      <p class="de">近鉄特急で京都へ → 新幹線で名古屋へ。駅弁を選ぶのも旅の楽しみ</p>
+      <div class="chips"><span class="chip">美和・母</span><span class="chip">文</span></div></li>
+    <li class="it w-miwa w-fumi"><span class="t">11:43</span>
+      <p class="ti">名古屋から特急ひだ9号で高山へ</p>
+      <p class="de">飛騨川の渓谷美を眺めながら約2時間半。3人並びの席で</p>
+      <div class="chips"><span class="chip">美和・母</span><span class="chip">文</span></div></li>
+    <li class="it w-miwa w-fumi hl"><span class="t">14:14</span>
+      <p class="ti">高山着。古い町並みをおさんぽ</p>
+      <p class="de">さんまち通り・中橋。食べ歩きは飛騨牛にぎりと、みたらしだんご</p>
+      <div class="chips"><span class="chip">美和・母</span><span class="chip">文</span></div></li>
+    <li class="it w-miwa w-fumi"><span class="t">16:00</span>
+      <p class="ti">ホテルにチェックイン、最上階の展望露天でひと休み</p>
+      <div class="chips"><span class="chip">美和・母</span><span class="chip">文</span></div></li>
+    <li class="it w-miwa w-fumi"><span class="t">18:30</span>
+      <p class="ti">前夜祭は飛騨牛ディナー</p>
+      <p class="de">高山の町で、明日に乾杯</p>
+      <div class="chips"><span class="chip">美和・母</span><span class="chip">文</span></div></li>
+    <li class="it w-shizu"><span class="t">夜</span>
+      <p class="ti">志津は自宅でおやすみ</p>
+      <p class="de">明朝は早いので、荷物をまとめて早めに就寝</p>
+      <div class="chips"><span class="chip">志津</span></div></li>
+  </ul>
+  <div class="stay w-miwa w-fumi"><span class="tag">泊</span>スパホテルアルピナ飛騨高山<br>
+  <span class="sm">高山駅徒歩3分・最上階に展望露天風呂。朝ごはんは翌朝の宮川朝市で</span></div>
+</section>
+
+<!-- ============ 8/16 ============ -->
+<section class="day">
+  <div class="dayhead">
+    <div class="datebox"><span class="m">AUG</span><span class="d">16</span><span class="w">日</span></div>
+    <div class="rule"></div>
+    <div><p class="daytitle">上高地で全員集合</p>
+    <p class="daysub">高山組は朝市に寄ってから山越え、志津は新宿から——お昼に合流</p></div>
+  </div>
+  <ul class="tl">
+    <li class="it w-shizu"><span class="t">7:15</span>
+      <p class="ti">志津、バスタ新宿を出発</p>
+      <p class="de">上高地まで直通バス。車窓の山景色を楽しみながら</p>
+      <div class="chips"><span class="chip">志津</span></div></li>
+    <li class="it w-miwa w-fumi"><span class="t">7:00</span>
+      <p class="ti">宮川朝市で飛騨の朝ごはん</p>
+      <p class="de">宿から徒歩5分。朝採れ野菜・漬物・お団子、川沿いの露店めぐり</p>
+      <div class="chips"><span class="chip">美和・母</span><span class="chip">文</span></div></li>
+    <li class="it w-miwa w-fumi"><span class="t">9:40</span>
+      <p class="ti">バスで高山を出発、山越えで上高地へ</p>
+      <p class="de">平湯温泉で乗り換えて、11:20頃 上高地に到着</p>
+      <div class="chips"><span class="chip">美和・母</span><span class="chip">文</span></div></li>
+    <li class="it w-all hl"><span class="t">お昼</span>
+      <p class="ti">上高地バスターミナルで、4人集合！</p>
+      <p class="de">高山組11:20頃着、志津12:02着</p>
+      <div class="chips"><span class="chip all">全員</span></div></li>
+    <li class="it w-all"><span class="t">12:30</span>
+      <p class="ti">昼食 → ルミエスタホテルへ</p>
+      <p class="de">梓川沿いの平坦な道を、のんびり歩いて約20分</p>
+      <div class="chips"><span class="chip all">全員</span></div></li>
+    <li class="it w-all"><span class="t">15:00</span>
+      <p class="ti">河童橋・ウェストン碑あたりをのんびり散策</p>
+      <p class="de">ホテルはウェストン碑のすぐ横、河童橋まで徒歩15分の特等席</p>
+      <div class="chips"><span class="chip all">全員</span></div></li>
+    <li class="it w-all"><span class="t">17:00</span>
+      <p class="ti">温泉でひとやすみ</p>
+      <p class="de">上高地で唯一の源泉を持つ宿。湯上がりに梓川のせせらぎ</p>
+      <div class="chips"><span class="chip all">全員</span></div></li>
+    <li class="it w-all hl"><span class="t">18:30</span>
+      <p class="ti">喜寿のお祝いディナー</p>
+      <p class="de">上高地の夜に、娘3人そろってあらためてお祝い。おめでとう、お母さん</p>
+      <div class="chips"><span class="chip all">全員</span></div></li>
+    <li class="it w-all"><span class="t">20:00</span>
+      <p class="ti">日帰り客が去った、静かな夜の上高地</p>
+      <p class="de">晴れれば満天の星。泊まる人だけのごほうび その一</p>
+      <div class="chips"><span class="chip all">全員</span></div></li>
+  </ul>
+  <div class="stay"><span class="tag">泊</span>上高地ルミエスタホテル<br>
+  <span class="sm">梓川のほとり、温泉のある宿。お部屋は2室</span></div>
+</section>
+
+<!-- ============ 8/17 ============ -->
+<section class="day">
+  <div class="dayhead">
+    <div class="datebox"><span class="m">AUG</span><span class="d">17</span><span class="w">月</span></div>
+    <div class="rule"></div>
+    <div><p class="daytitle">早朝の上高地 → 川の字の夜</p>
+    <p class="daysub">この旅のハイライトが、朝と夜にひとつずつ</p></div>
+  </div>
+  <ul class="tl">
+    <li class="it w-all hl"><span class="t">5:30</span>
+      <p class="ti">夜明けの散策——誰もいない上高地</p>
+      <p class="de">ホテルすぐの田代池・田代湿原の朝霧 → 余力があれば大正池 → 帰りに誰もいない河童橋と朝の穂高連峰。すべて平坦な道です。泊まる人だけのごほうび その二</p>
+      <div class="chips"><span class="chip all">全員</span></div></li>
+    <li class="it w-all"><span class="t">8:00</span>
+      <p class="ti">朝食 → チェックアウト</p>
+      <div class="chips"><span class="chip all">全員</span></div></li>
+    <li class="it w-all"><span class="t">10:00</span>
+      <p class="ti">明神池へ木道さんぽ or 河童橋カフェでゆっくり</p>
+      <p class="de">その日の体力と相談で。どちらでも素敵です</p>
+      <div class="chips"><span class="chip all">全員</span></div></li>
+    <li class="it w-all"><span class="t">13:30頃</span>
+      <p class="ti">バスで松本へ</p>
+      <div class="chips"><span class="chip all">全員</span></div></li>
+    <li class="it w-all"><span class="t">15:30</span>
+      <p class="ti">松本からレンタカーで、安曇野へ</p>
+      <p class="de">北アルプスを眺めながら約40分のドライブ</p>
+      <div class="chips"><span class="chip all">全員</span></div></li>
+    <li class="it w-all hl"><span class="t">18:30</span>
+      <p class="ti">4人そろって「川の字＋1」の夜</p>
+      <p class="de">お母さんを真ん中に、布団を並べて</p>
+      <div class="chips"><span class="chip all">全員</span></div></li>
+  </ul>
+  <div class="stay"><span class="tag">泊</span>四季の郷 コテージ（安曇野）<br>
+  <span class="sm">常念岳のふもと、一棟まるごと私たちだけ。温泉も併設</span></div>
+</section>
+
+<!-- ============ 8/18 ============ -->
+<section class="day">
+  <div class="dayhead">
+    <div class="datebox"><span class="m">AUG</span><span class="d">18</span><span class="w">火</span></div>
+    <div class="rule"></div>
+    <div><p class="daytitle">それぞれの家へ</p>
+    <p class="daysub">わさび農場の朝さんぽと松本での買い物、夕方みんな同時に出発</p></div>
+  </div>
+  <ul class="tl">
+    <li class="it w-all"><span class="t">朝</span>
+      <p class="ti">常念岳を眺める高原の朝</p>
+      <p class="de">コテージでゆっくり朝ごはん</p>
+      <div class="chips"><span class="chip all">全員</span></div></li>
+    <li class="it w-all"><span class="t">9:30</span>
+      <p class="ti">大王わさび農場へ</p>
+      <p class="de">湧水と水車小屋の朝さんぽ。名物わさびソフトも</p>
+      <div class="chips"><span class="chip all">全員</span></div></li>
+    <li class="it w-all"><span class="t">12:00</span>
+      <p class="ti">松本でおそばの昼食＆お土産えらび</p>
+      <p class="de">中町通り・縄手通りをぶらぶらと</p>
+      <div class="chips"><span class="chip all">全員</span></div></li>
+    <li class="it w-fumi"><span class="t">16:15頃</span>
+      <p class="ti">文は松本空港へ</p>
+      <p class="de">飛行機で福岡へ、夜のフェリーでその日のうちに壱岐へ</p>
+      <div class="chips"><span class="chip">文</span></div></li>
+    <li class="it w-shizu"><span class="t">16:30</span>
+      <p class="ti">志津は特急あずさで新宿へ</p>
+      <div class="chips"><span class="chip">志津</span></div></li>
+    <li class="it w-miwa"><span class="t">16:54</span>
+      <p class="ti">お母さんと美和は、特急しなので奈良へ</p>
+      <p class="de">夜には家に到着。おつかれさまでした</p>
+      <div class="chips"><span class="chip">美和・母</span></div></li>
+  </ul>
+</section>
+
+<!-- ============ 持ち物 ============ -->
+<div class="sechead">
+  <div class="orn">❖ ❖ ❖</div>
+  <h2 class="sec">お母さんに準備してほしいもの</h2>
+  <p class="secsub">これだけで大丈夫。あとはぜんぶ私たちにおまかせを</p>
+</div>
+<div class="memo">
+  <ul>
+    <li><span class="ic">👟</span>歩きやすい靴（散策路は平坦。いつものスニーカーで十分）</li>
+    <li><span class="ic">🧥</span>羽織りもの——上高地の朝は8月でも10〜15℃と、ひんやりします</li>
+    <li><span class="ic">☔</span>折りたたみ傘、常備薬・保険証</li>
+    <li><span class="ic">📷</span>そして、元気なお母さん</li>
+  </ul>
+</div>
+
+<footer>
+  <div class="orn">❖</div>
+  <p class="m">お誕生日おめでとう、お母さん。8月に、いっしょに。</p>
+  <p>母と三姉妹の旅 2026</p>
+</footer>
+</div>
+
+<script>
+  const btns = document.querySelectorAll('nav button');
+  document.body.dataset.view = 'all';
+  btns.forEach(b => b.addEventListener('click', () => {
+    document.body.dataset.view = b.dataset.view;
+  }));
+</script>
+</body>
+</html>
