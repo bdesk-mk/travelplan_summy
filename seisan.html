@@ -203,6 +203,11 @@
       shares:{"文":36000}, memo:"現地決済／コテージ33,000＋BBQコンロ3,000（税込）。文さんが全額負担"}
   ];
 
+  // 前受金（精算の前払い・現金の受け渡し）。総費用には影響せず、精算の貸し借りだけ調整する。
+  const PREPAY = [
+    {from:"文", to:"美和", amount:50000, memo:"文さんが現金で前渡し（美和が受領済）"}
+  ];
+
   function load(){
     try{ const raw=localStorage.getItem(KEY); if(raw){ items=JSON.parse(raw); return; } }catch(e){}
     items = JSON.parse(JSON.stringify(SEED));
@@ -221,9 +226,13 @@
       });
       if(it.payer) paid[it.payer]=(paid[it.payer]||0)+it.amount;
     });
-    const netSettled={}, total={};
+    const netSettled={}, total={}, prepaidOut={志津:0,文:0,美和:0};
     MEMBERS.forEach(m=>{ netSettled[m]=paid[m]-owedSettled[m]; total[m]=owedAll[m]; });
-    return {paid,owedAll,owedSettled,owedOnsite,netSettled,total};
+    (typeof PREPAY!=="undefined"?PREPAY:[]).forEach(p=>{
+      if(p.from in netSettled){ netSettled[p.from]+=p.amount; prepaidOut[p.from]+=p.amount; }
+      if(p.to in netSettled){ netSettled[p.to]-=p.amount; }
+    });
+    return {paid,owedAll,owedSettled,owedOnsite,netSettled,total,prepaidOut};
   }
 
   function settle(net){
@@ -247,7 +256,7 @@
       <div class="nm">${m}</div>
       <div class="net">${yen(c.total[m])}</div>
       <div class="netlbl">旅の総費用（あなたの分）</div>
-      <div class="detail">立替済 <b>${yen(c.paid[m])}</b><br>現地で払う <b>${yen(c.owedOnsite[m])}</b></div>
+      <div class="detail">立替済 <b>${yen(c.paid[m])}</b><br>現地で払う <b>${yen(c.owedOnsite[m])}</b>${c.prepaidOut[m]>0?`<br>前渡し済 <b>${yen(c.prepaidOut[m])}</b>`:``}</div>
     </div>`).join("");
 
     const s=document.getElementById("settle");
@@ -256,11 +265,14 @@
       s.innerHTML=`<h3>立替の精算</h3><div class="done">立替済みの項目がありません。</div>`;
     }else{
       const tx=settle(c.netSettled);
+      const pre=(typeof PREPAY!=="undefined"?PREPAY:[]);
+      const preNote=pre.length?`<p class="note">※ ${pre.map(p=>`${p.from}さん→${p.to}さん <b>${yen(p.amount)}</b> を前渡し済み`).join("、")}。下の金額はこれを差し引いた残りです。</p>`:``;
       if(tx.length===0){
-        s.innerHTML=`<h3>立替の精算</h3><div class="done">✓ 立替分の精算は不要です（±0）</div>`;
+        s.innerHTML=`<h3>立替の精算</h3>${preNote}<div class="done">✓ 立替分の精算は不要です（±0）</div>`;
       }else{
         s.innerHTML=`<h3>立替の精算 — いまお金を動かす分</h3>`+
-          `<p class="note">先に支払った立替（カード決済など）の貸し借りを、こう清算すると解決します。</p>`+
+          `<p class="note">先に支払った立替（カード決済など）の貸し借りを、こう精算すると解決します。</p>`+
+          preNote+
           tx.map(t=>`<div class="line"><span class="from">${t.from}</span><span class="arrow">→</span><span class="to">${t.to}</span><span class="amt">${yen(t.amt)}</span></div>`).join("");
       }
     }
