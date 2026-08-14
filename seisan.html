@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💰</text></svg>">
+<title>母と三姉妹の旅 — 予算・精算管理</title>
+<style>
+  :root{
+    --paper:#FBFAF7;--card:#FFFFFF;--ink:#2A322D;--sub:#6B766E;--faint:#98A29A;
+    --pine:#35604C;--pine-deep:#26463A;--kikyo:#7A5FA8;--kikyo-deep:#5C4485;
+    --kikyo-tint:#F3EFF9;--mist:#EDF0EC;--line:#E2E7E0;
+    --dusk1:#372C58;--dusk2:#5D4E8C;--dusk3:#9C8DC4;--dawn:#E8E2F1;
+    --receive:#2F7D57;--pay:#B4574C;--pay-tint:#FBEEEC;--onsite:#8A6D3B;--onsite-tint:#FBF3E4;
+    --serif:"Hiragino Mincho ProN","Yu Mincho","MS PMincho",serif;
+    --sans:"Hiragino Kaku Gothic ProN","Yu Gothic Medium","Yu Gothic","Meiryo",sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.7}
+  a{color:var(--pine)}
+
+  header{background:linear-gradient(160deg,var(--dusk2),var(--kikyo));color:#fff;padding:34px 20px 30px;text-align:center}
+  header .eyebrow{font-size:11px;letter-spacing:.28em;color:#E3DAF3;margin:0 0 8px;text-indent:.28em}
+  header h1{font-family:var(--serif);font-size:24px;font-weight:600;margin:0;letter-spacing:.04em}
+  header p{margin:8px 0 0;font-size:12.5px;color:#EFEAF7}
+
+  .wrap{max-width:720px;margin:0 auto;padding:0 16px 72px}
+  h2.sec{font-family:var(--serif);font-size:18px;font-weight:600;letter-spacing:.04em;margin:40px 0 4px;padding-top:14px}
+  .secsub{font-size:12px;color:var(--sub);margin:0 0 14px}
+
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:26px}
+  .pcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 12px;text-align:center;box-shadow:0 2px 10px rgba(42,50,45,.05)}
+  .pcard .nm{font-family:var(--serif);font-size:16px;font-weight:600;color:var(--kikyo-deep);margin-bottom:8px}
+  .pcard .net{font-size:21px;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:.01em;line-height:1.2;color:var(--kikyo-deep)}
+  .pcard .netlbl{font-size:10px;font-weight:700;letter-spacing:.06em;margin-top:3px;color:var(--sub)}
+  .pcard .detail{margin-top:9px;padding-top:9px;border-top:1px solid var(--line);font-size:11px;color:var(--sub);line-height:1.9}
+  .pcard .detail b{color:var(--ink);font-variant-numeric:tabular-nums}
+  @media(max-width:420px){.cards{gap:6px}.pcard{padding:14px 6px}.pcard .net{font-size:17px}}
+
+  .settle{margin-top:16px;background:linear-gradient(135deg,var(--kikyo-tint),#FDFCFA 70%);border:1px solid #E7DFF2;border-radius:14px;padding:18px 20px}
+  .settle h3{margin:0 0 4px;font-family:var(--serif);font-size:15px;font-weight:600;color:var(--kikyo-deep)}
+  .settle .note{font-size:11.5px;color:var(--sub);margin:0 0 10px}
+  .settle .line{display:flex;align-items:center;gap:10px;font-size:15px;padding:8px 0;border-bottom:1px dashed var(--line)}
+  .settle .line:last-child{border-bottom:none}
+  .settle .line .from{font-weight:700}
+  .settle .line .arrow{color:var(--kikyo)}
+  .settle .line .to{font-weight:700}
+  .settle .line .amt{margin-left:auto;font-weight:800;font-variant-numeric:tabular-nums;color:var(--kikyo-deep)}
+  .settle .done{font-size:13px;color:var(--sub);text-align:center;padding:6px 0}
+
+  .onsite{margin-top:14px;background:var(--onsite-tint);border:1px solid #EAD9B8;border-radius:14px;padding:16px 20px}
+  .onsite h3{margin:0 0 4px;font-family:var(--serif);font-size:15px;font-weight:600;color:var(--onsite)}
+  .onsite .note{font-size:11.5px;color:var(--sub);margin:0 0 10px}
+  .onsite .row{display:flex;gap:8px;flex-wrap:wrap}
+  .onsite .chip{background:#fff;border:1px solid #EAD9B8;border-radius:10px;padding:7px 14px;font-size:13.5px}
+  .onsite .chip b{font-variant-numeric:tabular-nums;color:var(--onsite);font-weight:800}
+
+  .tablewrap{overflow-x:auto;border-radius:12px;border:1px solid var(--line);margin-top:6px}
+  table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);min-width:600px}
+  thead th{background:var(--mist);color:var(--pine-deep);font-size:11.5px;letter-spacing:.04em;padding:9px 10px;text-align:left;white-space:nowrap}
+  tbody td{padding:9px 10px;border-top:1px solid var(--line);vertical-align:top}
+  tbody tr:hover{background:#FCFBFE}
+  td.amt{text-align:right;font-variant-numeric:tabular-nums;font-weight:700;white-space:nowrap}
+  td.memo{color:var(--sub);font-size:11.5px}
+  .pill{display:inline-block;font-size:10.5px;font-weight:700;padding:1px 8px;border-radius:999px;background:var(--mist);color:var(--sub);letter-spacing:.03em}
+  .pill.tate{background:#EAF3ED;color:var(--pine)}
+  .pill.genchi{background:var(--onsite-tint);color:var(--onsite)}
+  .share{display:inline-block;font-size:10.5px;font-weight:700;padding:1px 8px;border-radius:999px;background:#EAE2F4;color:var(--kikyo-deep);margin:1px 3px 1px 0;font-variant-numeric:tabular-nums}
+  .delbtn{appearance:none;border:none;background:transparent;color:var(--pay);cursor:pointer;font-size:15px;line-height:1;padding:2px 4px;border-radius:6px}
+  .delbtn:hover{background:var(--pay-tint)}
+  .totalrow td{border-top:2px solid var(--line);font-weight:800;background:#FBFAFD}
+  .empty{padding:26px 12px;text-align:center;color:var(--faint);font-size:13px}
+
+  .form{margin-top:18px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 18px 20px;box-shadow:0 2px 10px rgba(42,50,45,.05)}
+  .form h3{margin:0 0 14px;font-family:var(--serif);font-size:15px;font-weight:600}
+  .frow{margin-bottom:13px}
+  .frow label{display:block;font-size:11.5px;font-weight:700;color:var(--pine-deep);letter-spacing:.04em;margin-bottom:5px}
+  .frow input[type=text],.frow input[type=number],.frow select{width:100%;padding:9px 11px;border:1px solid var(--line);border-radius:9px;font:inherit;font-size:14px;background:#fff;color:var(--ink)}
+  .frow input:focus,.frow select:focus{outline:2px solid var(--kikyo);outline-offset:1px;border-color:transparent}
+  .frow2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .checks{display:flex;gap:8px;flex-wrap:wrap}
+  .checkbtn{display:flex;align-items:center;gap:6px;padding:8px 14px;border:1px solid var(--line);border-radius:999px;cursor:pointer;font-size:13.5px;font-weight:700;user-select:none;background:#fff}
+  .checkbtn input{accent-color:var(--kikyo);width:15px;height:15px}
+  .checkbtn.on{background:var(--kikyo-tint);border-color:#C9B8E6;color:var(--kikyo-deep)}
+  .addbtn{appearance:none;border:none;background:var(--pine);color:#fff;font:inherit;font-weight:700;font-size:14.5px;padding:11px 24px;border-radius:10px;cursor:pointer;letter-spacing:.04em;margin-top:4px;box-shadow:0 2px 8px rgba(38,70,58,.3)}
+  .addbtn:hover{background:var(--pine-deep)}
+  .hint{font-size:11.5px;color:var(--faint);margin-top:8px;line-height:1.7}
+
+  .io{margin-top:36px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+  .io h3{margin:0 0 6px;font-size:14px;font-weight:700;color:var(--pine-deep)}
+  .io p{margin:0 0 10px;font-size:12px;color:var(--sub)}
+  .io .btnrow{display:flex;gap:8px;flex-wrap:wrap}
+  .io button{appearance:none;border:1px solid var(--line);background:#fff;color:var(--ink);font:inherit;font-size:12.5px;font-weight:700;padding:8px 14px;border-radius:9px;cursor:pointer}
+  .io button:hover{background:var(--mist)}
+  .io textarea{width:100%;margin-top:10px;min-height:80px;padding:10px;border:1px solid var(--line);border-radius:9px;font-family:ui-monospace,monospace;font-size:11.5px;color:var(--ink);background:#FCFBFE;resize:vertical}
+
+  footer{margin-top:44px;text-align:center;color:var(--faint);font-size:11px;letter-spacing:.04em}
+  footer a{color:var(--sub)}
+</style>
+</head>
+<body>
+
+<header>
+  <p class="eyebrow">FOR 志津・文・美和</p>
+  <h1>予算・精算 管理</h1>
+  <p>母と三姉妹の旅 2026 ｜ お母さんはご招待</p>
+</header>
+
+<div class="wrap">
+
+  <h2 class="sec">姉妹それぞれの最終負担</h2>
+  <p class="secsub">旅のあいだに各自が最終的に支払う金額（立替の精算＋現地決済の自分の分をすべて含む）。</p>
+  <div class="cards" id="cards"></div>
+
+  <div class="settle" id="settle"></div>
+  <div class="onsite" id="onsite"></div>
+
+  <h2 class="sec">明細</h2>
+  <p class="secsub">立替＝先に支払った人（現地決済はまだ立替なし＝空欄）。分担＝各人の負担額。</p>
+  <div class="tablewrap">
+    <table>
+      <thead>
+        <tr><th>項目</th><th style="text-align:right">金額</th><th>立替</th><th>分担（各自の負担）</th><th>メモ</th><th></th></tr>
+      </thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+
+  <div class="form">
+    <h3>項目を追加</h3>
+    <div class="frow">
+      <label>項目名</label>
+      <input type="text" id="f-label" placeholder="例：レンタカー（タイムズCX-5）">
+    </div>
+    <div class="frow2">
+      <div class="frow">
+        <label>金額（円・合計）</label>
+        <input type="number" id="f-amount" min="0" step="1" inputmode="numeric" placeholder="12000">
+      </div>
+      <div class="frow">
+        <label>立替えた人</label>
+        <select id="f-payer">
+          <option value="美和">美和</option>
+          <option value="文">文</option>
+          <option value="志津">志津</option>
+          <option value="">（現地・未定＝立替なし）</option>
+        </select>
+      </div>
+    </div>
+    <div class="frow">
+      <label>分担する人（この金額を均等に割り勘）</label>
+      <div class="checks" id="f-split">
+        <label class="checkbtn on"><input type="checkbox" value="志津" checked>志津</label>
+        <label class="checkbtn on"><input type="checkbox" value="文" checked>文</label>
+        <label class="checkbtn on"><input type="checkbox" value="美和" checked>美和</label>
+      </div>
+    </div>
+    <div class="frow">
+      <label>メモ（任意）</label>
+      <input type="text" id="f-memo" placeholder="例：利用 4名・お母さんご招待">
+    </div>
+    <button class="addbtn" id="addbtn">＋ 追加する</button>
+    <p class="hint">フォームは「均等割り」用です。交通費のように<b>不均等な割り勘（お母さんの分は美和が負担など）</b>は、美和さんに項目を伝えていただければこちらで正確に設定します。</p>
+  </div>
+
+  <div class="io">
+    <h3>データの保存・共有</h3>
+    <p>入力内容はこの端末に自動保存されます。3人で同じ内容を見るには「書き出す」でコードをコピーし、美和さんに送ってください（共有リンクに反映します）。</p>
+    <div class="btnrow">
+      <button id="exportbtn">📋 書き出す（コピー）</button>
+      <button id="importbtn">📥 貼り付けて読み込む</button>
+      <button id="clearbtn">🗑 全消去</button>
+    </div>
+    <textarea id="io-area" placeholder="ここにコードが表示されます。読み込むときはここに貼り付けて「貼り付けて読み込む」を押してください。"></textarea>
+  </div>
+
+  <footer>
+    <p>母と三姉妹の旅 2026 ｜ <a href="./index.html">旅程表（姉妹用）へ戻る</a></p>
+  </footer>
+</div>
+
+<script>
+  const MEMBERS = ["志津","文","美和"];
+  const KEY = "kiju_seisan_v2";
+  let items = [];
+
+  // 確定分（美和さんの立替・現地決済ぶんを反映）
+  const SEED = [
+    {label:"スパホテルアルピナ飛騨高山（8/15・3名素泊り）", amount:26189, payer:"美和",
+      shares:{"文":13094,"美和":13095}, memo:"利用 美和・母・文／楽天カード決済済。文・美和で折半"},
+    {label:"京都→名古屋 新幹線（8/15・3名分）", amount:18000, payer:"美和",
+      shares:{"文":6000,"美和":12000}, memo:"利用 美和・母・文／EXカード決済。文は自分の分、母の分は美和が負担"},
+    {label:"名古屋→高山 特急ひだ9号（8/15・3名分）", amount:9390, payer:"美和",
+      shares:{"文":3130,"美和":6260}, memo:"利用 美和・母・文／カード決済。文は自分の分、母の分は美和が負担"},
+    {label:"上高地→松本 バス（8/17・4名分）", amount:15240, payer:"美和",
+      shares:{"志津":5080,"文":5080,"美和":5080}, memo:"利用 4名・お母さんご招待、姉妹3人で等分。ナショナルパークライナー予約番号07178098831"},
+    {label:"レンタカー タイムズ CX-5（8/17-18）", amount:11000, payer:"美和",
+      shares:{"美和":11000}, memo:"美和が全額負担。時間料金¥11,000（25時間45分）＋距離料金（20km超過分）は当日追加見込み"},
+    {label:"上高地ルミエスタ（8/16・4名）", amount:234600, payer:"",
+      shares:{"志津":78200,"文":78200,"美和":78200}, memo:"現地決済／4名利用・お母さんご招待、姉妹3人で等分"},
+    {label:"四季の郷コテージ＋BBQ（8/17・素泊り）", amount:36000, payer:"",
+      shares:{"志津":12000,"文":12000,"美和":12000}, memo:"現地決済／コテージ33,000＋BBQコンロ3,000（税込）、姉妹3人で等分"}
+  ];
+
+  function load(){
+    try{ const raw=localStorage.getItem(KEY); if(raw){ items=JSON.parse(raw); return; } }catch(e){}
+    items = JSON.parse(JSON.stringify(SEED));
+  }
+  function save(){ try{ localStorage.setItem(KEY, JSON.stringify(items)); }catch(e){} }
+  function yen(n){ return "¥" + Math.round(n).toLocaleString("ja-JP"); }
+
+  function calc(){
+    const paid={志津:0,文:0,美和:0}, owedAll={志津:0,文:0,美和:0},
+          owedSettled={志津:0,文:0,美和:0}, owedOnsite={志津:0,文:0,美和:0};
+    items.forEach(it=>{
+      Object.entries(it.shares||{}).forEach(([nm,amt])=>{
+        if(!(nm in owedAll)) return;
+        owedAll[nm]+=amt;
+        if(it.payer) owedSettled[nm]+=amt; else owedOnsite[nm]+=amt;
+      });
+      if(it.payer) paid[it.payer]=(paid[it.payer]||0)+it.amount;
+    });
+    const netSettled={}, total={};
+    MEMBERS.forEach(m=>{ netSettled[m]=paid[m]-owedSettled[m]; total[m]=owedAll[m]; });
+    return {paid,owedAll,owedSettled,owedOnsite,netSettled,total};
+  }
+
+  function settle(net){
+    const bal=MEMBERS.map(m=>({name:m,v:Math.round(net[m])}));
+    const debtors=bal.filter(b=>b.v<0).map(b=>({name:b.name,v:-b.v})).sort((a,b)=>b.v-a.v);
+    const creditors=bal.filter(b=>b.v>0).map(b=>({...b})).sort((a,b)=>b.v-a.v);
+    const tx=[]; let i=0,j=0;
+    while(i<debtors.length&&j<creditors.length){
+      const pay=Math.min(debtors[i].v,creditors[j].v);
+      if(pay>0) tx.push({from:debtors[i].name,to:creditors[j].name,amt:pay});
+      debtors[i].v-=pay; creditors[j].v-=pay;
+      if(debtors[i].v===0)i++; if(creditors[j].v===0)j++;
+    }
+    return tx;
+  }
+
+  function render(){
+    const c=calc();
+    const cards=document.getElementById("cards");
+    cards.innerHTML=MEMBERS.map(m=>`<div class="pcard">
+      <div class="nm">${m}</div>
+      <div class="net">${yen(c.total[m])}</div>
+      <div class="netlbl">旅の総費用（あなたの分）</div>
+      <div class="detail">立替済 <b>${yen(c.paid[m])}</b><br>現地で払う <b>${yen(c.owedOnsite[m])}</b></div>
+    </div>`).join("");
+
+    const s=document.getElementById("settle");
+    const hasSettled=items.some(it=>it.payer);
+    if(!hasSettled){
+      s.innerHTML=`<h3>立替の精算</h3><div class="done">立替済みの項目がありません。</div>`;
+    }else{
+      const tx=settle(c.netSettled);
+      if(tx.length===0){
+        s.innerHTML=`<h3>立替の精算</h3><div class="done">✓ 立替分の精算は不要です（±0）</div>`;
+      }else{
+        s.innerHTML=`<h3>立替の精算 — いまお金を動かす分</h3>`+
+          `<p class="note">先に支払った立替（カード決済など）の貸し借りを、こう清算すると解決します。</p>`+
+          tx.map(t=>`<div class="line"><span class="from">${t.from}</span><span class="arrow">→</span><span class="to">${t.to}</span><span class="amt">${yen(t.amt)}</span></div>`).join("");
+      }
+    }
+
+    const o=document.getElementById("onsite");
+    const anyOnsite=MEMBERS.some(m=>c.owedOnsite[m]>0);
+    if(!anyOnsite){ o.style.display="none"; }
+    else{
+      o.style.display="";
+      o.innerHTML=`<h3>現地決済（当日それぞれ支払い）</h3>`+
+        `<p class="note">まだ誰も立替えていない分。当日それぞれが自分の額を支払います（どなたかがまとめて立替えたら、明細の立替欄をその人に変えれば上の精算に反映されます）。</p>`+
+        `<div class="row">`+MEMBERS.map(m=>`<div class="chip">${m}　<b>${yen(c.owedOnsite[m])}</b></div>`).join("")+`</div>`;
+    }
+
+    const tb=document.getElementById("tbody");
+    if(items.length===0){
+      tb.innerHTML=`<tr><td colspan="6" class="empty">まだ項目がありません。下のフォームから追加してください。</td></tr>`;
+    }else{
+      let total=0;
+      tb.innerHTML=items.map((it,idx)=>{
+        total+=it.amount;
+        const shares=Object.entries(it.shares||{}).map(([nm,amt])=>`<span class="share">${nm} ${yen(amt)}</span>`).join("");
+        const tate=it.payer?`<span class="pill tate">${it.payer}</span>`:`<span class="pill genchi">現地</span>`;
+        return `<tr>
+          <td>${escapeHtml(it.label)}</td>
+          <td class="amt">${yen(it.amount)}</td>
+          <td>${tate}</td>
+          <td>${shares||'<span class="pill">—</span>'}</td>
+          <td class="memo">${escapeHtml(it.memo||"")}</td>
+          <td><button class="delbtn" data-i="${idx}" title="削除">✕</button></td>
+        </tr>`;
+      }).join("")+`<tr class="totalrow"><td>合計</td><td class="amt">${yen(total)}</td><td colspan="4"></td></tr>`;
+      tb.querySelectorAll(".delbtn").forEach(b=>b.addEventListener("click",()=>{ items.splice(+b.dataset.i,1); save(); render(); }));
+    }
+  }
+
+  function escapeHtml(s){return (s||"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
+
+  document.getElementById("f-split").addEventListener("change",e=>{
+    const l=e.target.closest(".checkbtn"); if(l) l.classList.toggle("on",e.target.checked);
+  });
+  document.getElementById("addbtn").addEventListener("click",()=>{
+    const label=document.getElementById("f-label").value.trim();
+    const amount=parseFloat(document.getElementById("f-amount").value);
+    const payer=document.getElementById("f-payer").value;
+    const sp=[...document.querySelectorAll("#f-split input:checked")].map(c=>c.value);
+    const memo=document.getElementById("f-memo").value.trim();
+    if(!label){ alert("項目名を入力してください"); return; }
+    if(!(amount>0)){ alert("金額を入力してください"); return; }
+    if(sp.length===0){ alert("分担する人を1人以上選んでください"); return; }
+    // 均等割り（端数は先頭の人に寄せて合計を一致させる）
+    const shares={}; const base=Math.floor(amount/sp.length); let rem=amount-base*sp.length;
+    sp.forEach((m,i)=>{ shares[m]=base+(i<rem?1:0); });
+    items.push({label,amount,payer,shares,memo});
+    save(); render();
+    document.getElementById("f-label").value="";
+    document.getElementById("f-amount").value="";
+    document.getElementById("f-memo").value="";
+    document.getElementById("f-label").focus();
+  });
+
+  document.getElementById("exportbtn").addEventListener("click",()=>{
+    const code=JSON.stringify(items); const ta=document.getElementById("io-area");
+    ta.value=code; ta.select(); try{ navigator.clipboard.writeText(code); }catch(e){}
+    alert("コードをコピーしました。美和さんに送ってください。");
+  });
+  document.getElementById("importbtn").addEventListener("click",()=>{
+    const v=document.getElementById("io-area").value.trim(); if(!v){ alert("コードを貼り付けてください"); return; }
+    try{ const arr=JSON.parse(v); if(!Array.isArray(arr)) throw 0; items=arr; save(); render(); alert("読み込みました。"); }
+    catch(e){ alert("コードの形式が正しくありません"); }
+  });
+  document.getElementById("clearbtn").addEventListener("click",()=>{
+    if(confirm("すべての項目を消去します。よろしいですか？（確定分に戻すにはページ再読込）")){ items=[]; save(); render(); }
+  });
+
+  load(); render();
+</script>
+</body>
+</html>
